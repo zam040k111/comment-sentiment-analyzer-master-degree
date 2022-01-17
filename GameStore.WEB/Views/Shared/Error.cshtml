@@ -1,0 +1,14 @@
+﻿@using System.Net
+@model GameStore.WEB.Services.Models.ErrorDetails
+
+@{
+    ViewBag.Title = "Error";
+}
+    <div id="error-style">
+        <h1>@Context.Response.StatusCode</h1>
+        @if (Model.StatusCode == Context.Response.StatusCode)
+        {
+            <h2>@Model.Message</h2>
+        }
+        <h3>@Enum.GetName(typeof(HttpStatusCode), Context.Response.StatusCode)</h3>
+    </div>

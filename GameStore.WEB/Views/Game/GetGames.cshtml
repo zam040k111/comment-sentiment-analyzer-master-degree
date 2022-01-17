@@ -1,0 +1,150 @@
+﻿@model GameFilterViewModel
+
+@{
+    ViewBag.Title = "Games";
+    Layout = "_Layout";
+}
+
+<h4>Games</h4>
+<div class="row">
+    <div class="col-md-11"></div>
+    <div class="col-md-1"><a class="btn btn-primary" asp-controller="Game" asp-action="Create">Add</a></div>
+</div>
+
+@using (Html.BeginForm("GetGamesByFilter", "Game", FormMethod.Get, new { id = "form" }))
+{
+    <div class="row">
+        <table class="table col-md-10">
+            @if (Model.GamesPerPage.Any())
+            {
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Price</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.GamesPerPage)
+                    {
+                        <tr>
+                            <td><img src="@string.Format("data:image/gif;base64,{0}", item.SmallImage)" width="200" /></td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@Html.ValueFor(model => item.Price, $"{item.Price:F2}")$</td>
+                            <td><a class="btn btn-primary" asp-controller="Game" asp-action="GetGame" asp-route-key="@item.Key">More</a></td>
+                        </tr>
+                    }
+                </tbody>
+            }
+            else
+            {
+                <h1>Nothing was found</h1>
+            }
+        </table>
+        <div class="col-md-2">
+            <h4>Filters</h4>
+            <div>
+                <hr />By platforms
+                @Html.ListBoxFor(
+                    b => b.Platforms,
+                    Model.GameItems.PlatformTypesItems,
+                    new
+                    {
+                        @class = "form-control",
+                        multiple = true,
+                        Title = "Hold 'Ctrl' to select multiple objects",
+                        size = Model.GameItems.PlatformTypesItems.Count
+                    })<hr />By genres
+                @Html.ListBoxFor(
+                    b => b.Genres,
+                    Model.GameItems.GenreListItems,
+                    new
+                    {
+                        @class = "form-control",
+                        multiple = true,
+                        Title = "Hold 'Ctrl' to select multiple objects",
+                        size = Model.GameItems.GenreListItems.Count
+                    })<hr />By publishers
+                @Html.ListBoxFor(
+                    b => b.Publishers,
+                    Model.GameItems.PublisherListItems,
+                    new
+                    {
+                        @class = "form-control",
+                        multiple = true,
+                        Title = "Hold 'Ctrl' to select multiple objects",
+                        size = Model.GameItems.PublisherListItems.Count
+                    })
+            </div><hr />
+            <div>
+                @Html.DropDownListFor(
+                    b => b.SortBy,
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem {Value = "0", Text = "<Not sort>"},
+                        new SelectListItem {Value = "1", Text = "Most popular"},
+                        new SelectListItem {Value = "2", Text = "Most commented"},
+                        new SelectListItem {Value = "3", Text = "Price ASC"},
+                        new SelectListItem {Value = "4", Text = "Price DESC"},
+                        new SelectListItem {Value = "5", Text = "New"},
+                        new SelectListItem {Value = "6", Text = "Reviews ASC"},
+                        new SelectListItem {Value = "7", Text = "Reviews DESC"}
+                    }, new { @class = "form-control" })
+            </div>
+            <hr />
+            <div>
+                <div>By price</div>
+                from
+                @Html.TextBoxFor(m => m.PriceFrom, new { @class = "form-control", type = "number", min = "0" })
+                to
+                @Html.TextBoxFor(m => m.PriceTo, new { @class = "form-control", type = "number", min = "0" })
+            </div>
+            <hr />
+            <div>
+                By published
+                <div>@Html.RadioButtonFor(i => i.Published, @TimeSpan.FromDays(7)) Last week</div>
+                <div>@Html.RadioButtonFor(i => i.Published, @TimeSpan.FromDays(30)) Last month</div>
+                <div>@Html.RadioButtonFor(i => i.Published, @TimeSpan.FromDays(365)) Last year</div>
+                <div>@Html.RadioButtonFor(i => i.Published, @TimeSpan.FromDays(730)) 2 years</div>
+                <div>@Html.RadioButtonFor(i => i.Published, @TimeSpan.FromDays(1095)) 3 years</div>
+            </div>
+            <hr />
+            <div>
+                <div>By name</div>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", type = "text", minlength = "3" })
+            </div>
+            <hr />
+            <div>
+                <span>
+                    <button class="btn btn-primary" type="submit" onclick="ChangePage(1)">Filter</button>
+                    <a class="btn btn-primary float-right" asp-action="GetGames">Reset</a>
+                </span>
+            </div>
+        </div>
+    </div>
+    <br />
+    @Html.HiddenFor(m => m.PageNumber)
+    <div class="row">
+        @if (Model.TotalItems > Model.PageSize)
+        {
+            <div class="col-md-2">
+                @Html.DropDownListFor(
+                    m => m.PageSize,
+                    new List<SelectListItem>
+                    {
+                        new SelectListItem {Value = "10", Text = "10"},
+                        new SelectListItem {Value = "20", Text = "20"},
+                        new SelectListItem {Value = "50", Text = "50"},
+                        new SelectListItem {Value = "100", Text = "100"},
+                        new SelectListItem {Value = "1000", Text = "all"}
+                    }, new { @class = "form-control", onchange = "ChangePage(1)" })
+            </div>
+            <div class="col-md-10">
+                @await Html.PartialAsync("_Pagenator", Model)
+            </div>
+        }
+    </div>
+}

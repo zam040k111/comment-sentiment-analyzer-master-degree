@@ -1,0 +1,27 @@
+﻿@model GameStore.WEB.Models.PlatformTypeViewModel
+
+@{
+    ViewBag.Title = "Update platform type";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+<hr />
+
+@using (Html.BeginForm("Update", "PlatformType", FormMethod.Post,
+    new { role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(i => i.Id)
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Type, "Type name", new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Type, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(n => n.Type, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}

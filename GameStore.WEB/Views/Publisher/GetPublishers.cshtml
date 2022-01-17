@@ -1,0 +1,35 @@
+﻿@model List<PublisherViewModel>
+
+@{
+    ViewBag.Title = "Publishers";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4><a class="btn btn-primary float-right" asp-controller="Publisher" asp-action="Create">Add</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Company name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Home page</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CompanyName</td>
+                <td>@item.Description</td>
+                <td><a href="https://@item.HomePage">@item.HomePage</a></td>
+                <td>
+                    <span class="float-right">
+                        <a class="btn btn-primary" href="publisher/@item.Id/update" onclick="return CheckUpdateIsAllowed(@item.Id, 'Publisher')">Edit</a>
+                        <a class="btn btn-primary" href="publisher/@item.Id/remove" onclick="return confirm('Are you sure? Delete @item.CompanyName?')">Remove</a>
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

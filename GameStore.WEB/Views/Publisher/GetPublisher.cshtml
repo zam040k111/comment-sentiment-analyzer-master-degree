@@ -1,0 +1,30 @@
+﻿@model PublisherViewModel
+
+@{
+    ViewBag.Title = "Publisher";
+    Layout = "_Layout";
+}
+
+<h4>Publisher</h4><a class="btn btn-primary float-right" asp-controller="Publisher" asp-action="Create">Add</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Company name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Home page</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.CompanyName</td>
+            <td>@Model.Description</td>
+            <td><a href="https://@Model.HomePage">@Model.HomePage</a></td>
+            <td>
+                <a class="btn btn-primary" href="@Model.Id/update" onclick="return CheckUpdateIsAllowed(@Model.Id, 'Publisher', false)">Edit</a>
+                <a class="btn btn-primary" href="@Model.Id/remove" onclick="return confirm('Are you sure? Delete @Model.CompanyName?')">Remove</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

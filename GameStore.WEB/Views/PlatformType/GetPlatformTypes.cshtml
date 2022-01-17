@@ -1,0 +1,31 @@
+﻿@model List<PlatformTypeViewModel>
+
+@{
+    ViewBag.Title = "Platform types";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4><a class="btn btn-primary float-right" asp-controller="PlatformType" asp-action="Create">Add</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Type name</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Type</td>
+                <td>
+                    <span class="float-right">
+                        <a class="btn btn-primary" href="platformType/@item.Id/update" onclick="return CheckUpdateIsAllowed(@item.Id, 'PlatformType')">Edit</a>
+                        <a class="btn btn-primary" href="platformType/@item.Id/remove" onclick="return confirm('Are you sure? Delete @item.Type?')">Remove</a>
+                    </span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

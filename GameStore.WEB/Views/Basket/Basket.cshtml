@@ -1,0 +1,60 @@
+﻿@model OrderViewModel
+
+@{
+    ViewBag.Title = "Cart";
+    Layout = "_Layout";
+}
+
+@if (Model == null || !Model.OrderDetails.Any())
+{
+    <h2>@ViewBag.Title is empty</h2>
+}
+else
+{
+    <h2>@ViewBag.Title</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Game</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Quantity</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        @using (Html.BeginForm("CreateOrder", "Order", FormMethod.Get))
+        {
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.Description</td>
+                        <td>@Html.ValueFor(model => item.Product.Price, $"{item.Product.Price:F2}")$</td>
+                        <td>@item.Discount</td>
+                        <td>
+                            <input class="form-control" type="number" value="@item.Quantity" step="1" max="999" min="1" size="3" 
+                                   onchange="ChangeQuantity(this, @Model.OrderDetails.IndexOf(item))" />
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" asp-controller="Basket" asp-action="RemoveFromBasket"
+                               asp-route-gameKey="@item.ProductKey">Remove</a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td id="TotalPrice">Total price: @Html.ValueFor(model => Model.TotalPrice, $"{Model.TotalPrice:F2}")$</td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        <button type="submit" class="btn btn-primary">Order</button>
+                    </td>
+                </tr>
+            </tbody>
+        }
+    </table>
+}
+

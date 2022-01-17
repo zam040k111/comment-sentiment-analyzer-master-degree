@@ -1,0 +1,49 @@
+﻿@model CommentViewModel
+
+@{
+    ViewBag.Title = "Comments";
+    var game = ViewBag.Game as GameViewModel;
+}
+
+<h4>Game</h4>
+<div class="form-group row">
+    <div class="col-md-2 col-form-label">Name</div>
+    <div class="col-md-6 col-form-label"><div>@game.Name</div></div>
+</div>
+<div class="form-group row">
+    <div class="col-md-2 col-form-label">Description</div>
+    <div class="col-md-6 col-form-label"><div>@game.Description</div></div>
+    <div class="col-md-2 col-form-label"><img src="@string.Format("data:image/gif;base64,{0}", game.SmallImage)" width="200" /></div>
+</div>
+
+@{ Model.Children = Model.Comments.Where(com => com.ParentCommentId == null).ToList(); }
+@await Html.PartialAsync("CommentChildren", Model)
+
+<h3>Your comment</h3>
+@if (Model.ParentCommentId != null)
+{
+    <h4>You are replying to @Model.ParentComment.Name's comment</h4>
+}
+
+<form method="post" action="createComment" , role="form">
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(i => i.ParentCommentId)
+    @Html.HiddenFor(i => i.IsQuote)
+    <div class="form-group row">
+        @Html.LabelFor(i => i.Name, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(n => n.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(i => i.Body, "Your comment", new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @if (Model.IsQuote)
+            {<q>@Model.ParentComment.Body</q>}
+            @Html.TextAreaFor(m => m.Body, new { @class = "form-control", rows = "4" })
+            @Html.ValidationMessageFor(n => n.Body, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

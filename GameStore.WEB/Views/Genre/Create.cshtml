@@ -1,0 +1,41 @@
+﻿@model GenreViewModel
+
+@{
+    ViewBag.Title = "Create genre";
+    Layout = "_Layout";
+}
+
+<h4>Create genre</h4>
+<hr />
+
+@using (Html.BeginForm("Create", "Genre", FormMethod.Post,
+ new { role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(n => n.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.ParentGenreId, "Parent genre", new {@class = "col-md-2"})
+        <div class="col-md-6 col-form-label">
+            @Html.DropDownListFor(
+                b => b.ParentGenreId,
+                Model.GenreParentList,
+                new
+                {
+                    @class = "form-control",
+                    multiple = true,
+                    size = 10
+                })
+            @Html.ValidationMessageFor(n => n.ParentGenreId, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}

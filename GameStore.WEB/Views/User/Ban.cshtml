@@ -1,0 +1,42 @@
+﻿@model string
+
+@{
+    ViewBag.Title = "Ban";
+    Layout = "_Layout";
+}
+
+<h2>@ViewBag.Title</h2>
+<h4>Choose time period</h4>
+<hr />
+@{var period = DateTime.Now;}
+@using (Html.BeginForm("Ban", "User", FormMethod.Post, new { role = "form" }))
+{
+    <div class="form-check form-group row">
+        <label class="form-check-label" for="hour">
+            <input type="radio" checked class="form-check-input" id="hour" name="until" value="@period.AddHours(1)">&nbsp; Hour
+        </label>
+    </div>
+    <div class="form-check form-group row">
+        <label class="form-check-label" for="day">
+            <input type="radio" class="form-check-input" id="day" name="until" value="@period.AddDays(1)">&nbsp; Day
+        </label>
+    </div>
+    <div class="form-check form-group row">
+        <label class="form-check-label" for="week">
+            <input type="radio" class="form-check-input" id="week" name="until" value="@period.AddDays(7)">&nbsp; Week
+        </label>
+    </div>
+    <div class="form-check form-group row">
+        <label class="form-check-label" for="month">
+            <input type="radio" class="form-check-input" id="month" name="until" value="@period.AddMonths(1)">&nbsp; Month
+        </label>
+    </div>
+    <div class="form-check form-group row">
+        <label class="form-check-label" for="permanent">
+            <input type="radio" class="form-check-input" id="permanent" name="until" value="@DateTime.MaxValue">&nbsp; Permanent
+        </label>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure?')">Ban</button>
+    </div>
+}

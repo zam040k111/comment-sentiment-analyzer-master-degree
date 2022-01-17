@@ -1,0 +1,107 @@
+﻿@model GameViewModel;
+
+@{ ViewBag.Title = "Create game"; }
+
+<h4>Create game</h4>
+<hr />
+
+@using (Html.BeginForm("Create", "game", FormMethod.Post,
+   new { role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Key, new { @class = "col-md-2 col-form-label" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Key, new { @class = "form-control" })
+            @Html.ValidationMessageFor(i => i.Key, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(i => i.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Description, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(i => i.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Price, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Price, $"{Model.Price:F2}", new { @class = "form-control", type = "text"})
+            @Html.ValidationMessageFor(i => i.Price, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.UnitsInStock, "Units in stock", new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.UnitsInStock, new { @class = "form-control", type = "number", min = "0" })
+            @Html.ValidationMessageFor(i => i.UnitsInStock, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.PublisherId, "Publisher", new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.DropDownListFor(b => b.PublisherId, Model.PublisherListItems, new { @class = "form-control" })
+            @Html.ValidationMessageFor(i => i.PublisherId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.GamePlatformTypesId, "Platform types", new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.DropDownListFor(
+                b => b.GamePlatformTypesId,
+                Model.PlatformTypesItems,
+                new
+                {
+                    @class = "form-control",
+                    multiple = true,
+                    Title = "Hold 'Ctrl' to select multiple objects"
+                })
+            @Html.ValidationMessageFor(i => i.GamePlatformTypesId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.GameGenresId, "Genres", new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.DropDownListFor(
+                b => b.GameGenresId,
+                Model.GenreListItems,
+                new
+                {
+                    @class = "form-control",
+                    multiple = true,
+                    size = 5,
+                    Title = "Hold 'Ctrl' to select multiple objects"
+                })
+            @Html.ValidationMessageFor(i => i.GameGenresId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Discontinued, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.CheckBoxFor(m => m.Discontinued)
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Image, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            <input type="file" name="Image" id="Image" onchange="fileCheck(this);" />
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.SmallImage, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            <input type="file" name="SmallImage" id="SmallImage" onchange="fileCheck(this);" />
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}

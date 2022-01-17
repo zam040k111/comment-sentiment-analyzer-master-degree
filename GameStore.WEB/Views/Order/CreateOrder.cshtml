@@ -1,0 +1,63 @@
+﻿@model OrderViewModel
+
+@{
+    ViewBag.Title = "Create order";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Customer Id</th>
+            <th scope="col">Game</th>
+            <th scope="col">Price</th>
+            <th scope="col">Discount</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.OrderDetails)
+        {
+            <tr>
+                <td>@Model.CustomerId</td>
+                <td>@item.Product.Name</td>
+                <td>@Html.ValueFor(model => item.Price, $"{item.Price:F2}")$</td>
+                <td>@item.Discount</td>
+                <td>@item.Quantity</td>
+            </tr>
+        }
+        <tr>
+            <td></td>
+            <td></td>
+            <td>Total price: @Html.ValueFor(model => model.TotalPrice, $"{Model.TotalPrice:F2}")$</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<div class="form-group">
+    @using (Html.BeginForm("CreateOrder", "Order", FormMethod.Post, new { role = "form" }))
+    {
+        <div class="form-check form-group row">
+            <label class="form-check-label" for="paymentPage">
+                <input type="radio" checked class="form-check-input" id="paymentPage" name="paymentMethod" value="bank">
+                &nbsp;<img src="https://image.freepik.com/free-vector/bank-building-icon-isolated-white_68708-406.jpg" height="30" alt=" "> Bank
+            </label>
+        </div>
+        <div class="form-check form-group row">
+            <label class="form-check-label" for="paymentPage2">
+                <input type="radio" class="form-check-input" id="paymentPage2" name="paymentMethod" value="boxTerminal">
+                &nbsp;IBox terminal
+            </label>
+        </div>
+        <div class="form-check form-group row">
+            <label class="form-check-label" for="paymentPage3">
+                <input type="radio" class="form-check-input" id="paymentPage3" name="paymentMethod" value="visa">
+                &nbsp;<img src="https://bez-tabu.com.ua/wp-content/uploads/visa-logo.png" height="30" alt=" "> Visa
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Buy</button>
+    }
+    @Html.ValidationMessageFor(i => i.TotalPrice, "", new { @class = "text-danger" })
+</div>

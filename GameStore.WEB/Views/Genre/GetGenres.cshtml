@@ -1,0 +1,11 @@
+﻿@model GenreViewModel
+
+@{
+    ViewBag.Title = "Genres";
+    Layout = "_Layout";
+}
+
+<h4>Genres</h4><a class="btn btn-primary float-right" asp-controller="Genre" asp-action="Create">Add</a>
+<table class="table"></table>
+<hr />
+@await Html.PartialAsync("GenreBody", Model)

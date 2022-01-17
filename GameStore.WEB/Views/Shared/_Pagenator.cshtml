@@ -1,0 +1,38 @@
+﻿@model GameStore.WEB.Interfaces.IPagenator
+
+<div class="btn-group">
+    @for (var i = 1; i <= Model.TotalPages; i++)
+    {
+        if (i > Model.PageNumber - 3 && i < Model.PageNumber + 3)
+        {
+            if (i == Model.PageNumber)
+            {
+                <input class="btn btn-primary" type="button" onclick="ChangePage(@i)" value="@i" />
+            }
+            else
+            {
+                <input class="btn btn-outline-primary" type="button" onclick="ChangePage(@i)" value="@i" />
+            }
+        }
+        else
+        {
+            if (i == Model.PageNumber - 3)
+            {
+                <input class="btn btn-outline-primary" type="button" onclick="ChangePage(1)" value="1" />
+                if (i > 1)
+                {
+                    <input class="btn" type="button" value="..." />
+                }
+            }
+            if (i == Model.PageNumber + 3)
+            {
+                if (i < Model.TotalPages)
+                {
+                    <input class="btn" type="button" value="..." />
+                }
+                <input class="btn btn-outline-primary" type="button" onclick="ChangePage(@Model.TotalPages)" value="@Model.TotalPages" />
+            }
+        }
+    }
+</div>
+

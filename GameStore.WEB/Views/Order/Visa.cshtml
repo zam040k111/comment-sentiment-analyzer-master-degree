@@ -1,0 +1,83 @@
+﻿@model VisaViewModel
+
+@{
+    ViewBag.Title = "Visa";
+    Layout = "_Layout";
+}
+
+@using (Html.BeginForm("visa", "Order", FormMethod.Post))
+{
+    <div class="card">
+        <div class="card-body">
+            <h3 class="text-center">Visa Payment</h3>
+            <hr>
+            <form role="form" autocomplete="off">
+                <div class="form-group">
+                    <label for="cc_name"><h6>Card Holder's Name</h6></label>
+                    @Html.TextBoxFor(m => m.HolderName, "",
+                        new { title = "First and last name", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.HolderName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <label><h6>Card Number</h6></label>
+                    <div class="input-group">
+                        @Html.TextBoxFor(m => m.CardNumber, "",
+                            new { @class = "form-control", autocomplete = "off", title = "Credit card number" })
+                        <div class="input-group-append"><span class="input-group-text text-muted"><i class="fab fa-cc-visa mx-1"></i><i class="fab fa-cc-mastercard mx-1"></i></span></div>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.CardNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group row">
+                    <label class="col-md-12"><h6>Card Expiration Date</h6></label>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                            b => b.Month,
+                            new List<SelectListItem>
+                            {
+                                new SelectListItem { Value = "1", Text = "01" },
+                                new SelectListItem { Value = "2", Text = "02" },
+                                new SelectListItem { Value = "3", Text = "03" },
+                                new SelectListItem { Value = "4", Text = "04" },
+                                new SelectListItem { Value = "5", Text = "05" },
+                                new SelectListItem { Value = "6", Text = "06" },
+                                new SelectListItem { Value = "7", Text = "07" },
+                                new SelectListItem { Value = "8", Text = "08" },
+                                new SelectListItem { Value = "9", Text = "09" },
+                                new SelectListItem { Value = "10", Text = "10" },
+                                new SelectListItem { Value = "11", Text = "11" },
+                                new SelectListItem { Value = "12", Text = "12" },
+                            }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Month, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.DropDownListFor(
+                            m => m.Year,
+                            new List<SelectListItem>
+                            {
+                                new SelectListItem{Value = "2020", Text = "2020"},
+                                new SelectListItem{Value = "2021", Text = "2021"},
+                                new SelectListItem{Value = "2022", Text = "2022"},
+                                new SelectListItem{Value = "2023", Text = "2023"},
+                                new SelectListItem{Value = "2024", Text = "2024"},
+                            }, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.TextBoxFor(m => m.Cvc, "",
+                            new {@class = "form-control", autocomplete = "off", title = "Three digits at back of your card", placeholder = "CVC" })
+                        @Html.ValidationMessageFor(m => m.Cvc, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <button type="reset" class="btn btn-secondary btn-lg btn-block">Reset</button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+}

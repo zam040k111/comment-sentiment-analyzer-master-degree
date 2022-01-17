@@ -1,0 +1,41 @@
+﻿@model PublisherViewModel
+
+@{
+    ViewBag.Title = "Update publisher";
+    Layout = "_Layout";
+}
+
+<h4>@ViewBag.Title</h4>
+<hr />
+
+@using (Html.BeginForm("Update", "Publisher", FormMethod.Post,
+    new { role = "form" }))
+{
+
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(i=>i.Id)
+    <div class="form-group row">
+        @Html.LabelFor(m => m.CompanyName, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(n => n.CompanyName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.Description, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(n => n.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group row">
+        @Html.LabelFor(m => m.HomePage, new { @class = "col-md-2" })
+        <div class="col-md-6 col-form-label">
+            @Html.TextBoxFor(m => m.HomePage, new { @class = "form-control", type = "text" })
+            @Html.ValidationMessageFor(n => n.HomePage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}

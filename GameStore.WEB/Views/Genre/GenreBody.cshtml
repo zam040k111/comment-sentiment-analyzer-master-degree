@@ -1,0 +1,24 @@
+﻿@model GenreViewModel
+
+<div class="container">
+    @foreach (var genre in Model.Genres.Where(com => com.ParentGenreId == null))
+    {
+        <div class="card w-75">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-10">
+                        <p>@genre.Name</p>
+                    </div>
+                    <div class="col-md-2">
+                        <span class="float-right btn-group btn-group-sm" role="group">
+                            <a class="btn btn-primary" href="genre/@genre.Id/update" onclick="return CheckUpdateIsAllowed(@genre.Id, 'Genre')">Edit</a>
+                            <a class="btn btn-primary" href="genre/@genre.Id/remove" onclick="return confirm('Are you sure? Delete @genre.Name?')">Remove</a>
+                        </span>
+                    </div>
+                </div>
+                @{Model.Child = genre;}
+                @await Html.PartialAsync("GenreChildren", Model)
+            </div>
+        </div>
+    }
+</div>

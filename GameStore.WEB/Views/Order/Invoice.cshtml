@@ -1,0 +1,89 @@
+﻿@model OrderViewModel
+
+@{
+    ViewBag.Title = "Invoice";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row p-4">
+                        <div class="col-md-6">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRIRpx3Cb-lUGDjMXGvuZP7N3Sz23iQ_cWI6w&usqp=CAU" alt="LOGO">
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-1">Invoice #@Model.Id</p>
+                            <p class="text-muted">@Model.DateTime.ToString("g")</p>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row pb-5 p-4">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold mb-4">Client Information</p>
+                            <p class="mb-1">John Doe, Mrs Emma Downson</p>
+                            <p>Acme Inc</p>
+                            <p class="mb-1">Berlin, Germany</p>
+                            <p class="mb-1">6781 45P</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-4">Payment Details</p>
+                            <p class="mb-1"><span class="text-muted">VAT: </span> 1425782</p>
+                            <p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
+                            <p class="mb-1"><span class="text-muted">Payment Type: </span> Bank</p>
+                            <p class="mb-1"><span class="text-muted">Name: </span> John Doe</p>
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row p-4">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0 text-uppercase small font-weight-bold">ID</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Description</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.OrderDetails)
+                                    {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.Product.Key</td>
+                                        <td>@item.Product.Name</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@Html.ValueFor(model => item.Product.Price, $"{item.Product.Price:F2}")$</td>
+                                        <td>@Html.ValueFor(model => item.Price, $"{item.Price:F2}")$</td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bg-dark text-white p-4">
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Discount</div>
+                            <div class="h2 font-weight-light">0</div>
+                        </div>
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Sub - Total amount</div>
+                            <div class="h2 font-weight-light">
+                                @Html.ValueFor(model => model.TotalPrice, $"{Model.TotalPrice:F2}")$
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <a class="btn btn-primary" asp-controller="Game" asp-action="GetGames">Games</a>
+    <a class="btn btn-primary" asp-controller="Order" asp-action="Download" asp-route-id="@Model.Id" target="_blank">Download invoice</a>
+</div>

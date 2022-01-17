@@ -1,0 +1,12 @@
+﻿@{
+    ViewBag.Title = "IBox payment";
+    Layout = "_Layout";
+}
+
+<h3>IBox terminal Payment</h3>
+<hr />
+
+<div class="form-group">
+    <a class="btn btn-primary" asp-controller="Order" asp-action="PayForOrder" asp-route-paymentMethod="boxTerminal">Submit payment</a>
+    <a class="btn btn-primary" asp-controller="Order" asp-action="CreateOrder">Cancel</a>
+</div>
